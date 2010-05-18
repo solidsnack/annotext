@@ -1,0 +1,36 @@
+name                          : annotext
+version                       : 0.0.0
+category                      : Text
+license                       : BSD3
+license-file                  : LICENSE
+author                        : Jason Dusek
+maintainer                    : annotext@solidsnack.be 
+homepage                      : http://github.com/solidsnack/annotext/
+synopsis                      : Presentable plaintext.
+description                   :
+  Annotext makes translates plaintext into HTML, preserving formatting while
+  making links clickable and highlighting plain text idioms like bolding with
+  stars and smileys.
+
+cabal-version                 : >= 1.6
+build-type                    : Simple
+extra-source-files            : README
+
+
+library
+  build-depends               : base >= 2 && < 4
+                              , containers
+                              , utf8-string >= 0.3
+                              , bytestring >= 0.9
+  exposed-modules             : Text.Annotext
+  extensions                  : StandaloneDeriving
+
+
+executable                      annotext
+  main-is                     : bin/Annotext.hs
+  build-depends               : base 
+                              , containers
+                              , utf8-string >= 0.3
+                              , bytestring >= 0.9
+  extensions                  : NoMonomorphismRestriction
+
