@@ -41,6 +41,4 @@ not_weird c                  =  (c >= '!') && (c <= '~') || (c > '\DEL')
                             --  Recognize ASCII characters between '!' and '~'
                             --  or accept all higher-valued Unicode chars.
 
-
-chars                        =  string . fromString
-
+chars                        =  string . pack
