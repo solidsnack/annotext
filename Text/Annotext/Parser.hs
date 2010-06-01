@@ -1,8 +1,9 @@
 
 module Text.Annotext.Parser where
 
+import Prelude hiding (null, takeWhile)
 import Control.Applicative
-import Data.ByteString.Char8
+import Data.ByteString.Char8 hiding (takeWhile)
 
 import Data.Attoparsec.Char8
 
@@ -23,7 +24,7 @@ url                          =  do
 
 email_bytes                  =  do
   preamble                  <-  chars "mailto:" <|> pure null
-  addy                      <-  match (email_part; char '@'; email_part)
+  addy                      <-  match (email_part >> char '@' >> email_part)
   return (preamble, addy)
  where
   email_part                 =  takeWhile part_char
@@ -36,9 +37,10 @@ present_directory_path       =  do
 no_ASCII_weirdness           =  takeWhile not_weird
 
 
-not_weird c = c >= '!' && c <= '~' -- Good, ol'-fashioned American characters.
-               || c > '\DEL' -- Never know what to expect with those foreign
-                             -- characters...
+not_weird c                  =  (c >= '!') && (c <= '~') || (c > '\DEL')
+                            --  Recognize ASCII characters between '!' and '~'
+                            --  or accept all higher-valued Unicode chars.
+
 
 chars                        =  string . fromString
 
