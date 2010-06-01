@@ -1,8 +1,8 @@
 
 module Text.Annotext.Parser where
 
-import Prelude hiding (null, takeWhile)
-import Control.Applicative
+import Prelude hiding (null, takeWhile, concat)
+import Control.Applicative hiding (empty)
 import Data.ByteString.Char8 hiding (takeWhile)
 
 import Data.Attoparsec.Char8
@@ -23,9 +23,11 @@ url                          =  do
   return (scheme, body)
 
 email_bytes                  =  do
-  preamble                  <-  chars "mailto:" <|> pure null
-  addy                      <-  match (email_part >> char '@' >> email_part)
-  return (preamble, addy)
+  preamble                  <-  chars "mailto:" <|> pure empty
+  user                      <-  email_part
+  at                        <-  char '@'
+  realm                     <-  email_part
+  return (preamble, user `snoc` at `append` realm)
  where
   email_part                 =  takeWhile part_char
    where
