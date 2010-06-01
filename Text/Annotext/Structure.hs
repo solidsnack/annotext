@@ -7,6 +7,6 @@ data Structure where
   URL :: ByteString -> Structure
   EMail :: ByteString -> Structure
   Plain :: ByteString -> Structure
-  Bold :: ByteString -> Strucutre
+  Bold :: ByteString -> Structure
   Smiley :: ByteString -> Structure
 
